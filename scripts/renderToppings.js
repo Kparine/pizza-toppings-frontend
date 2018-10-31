@@ -25,10 +25,17 @@ const renderToppings = (toppings) => {
   // delete list item
   addEventListenerAll('.delete', 'click', function(event){
     const id = event.target.parentElement.getAttribute('data-id')
+    
     deleteTopping(id)
-
-    const toppings = getToppings()
-    renderToppings(toppings)
+    .then(function(response){
+      return getToppings()
+    })
+    .then(function(response){
+      renderToppings(response.data.toppings)
+    })
+    .catch(function(error){
+      alert(error.response.statusText)
+    })
   })
 
   // show update form
@@ -36,16 +43,21 @@ const renderToppings = (toppings) => {
     const id = event.target.parentElement.getAttribute('data-id')
     setEditing(id)
 
-    const toppings = getToppings()
-    renderToppings(toppings)
+
+    getToppings()
+    .then(function(response){
+      renderToppings(response.data.toppings)
+    })
   })
 
   // hide update form
   addEventListenerAll('.cancel', 'click', function(event){
     resetEditing()
 
-    const toppings = getToppings()
-    renderToppings(toppings)
+    getToppings()
+    .then(function(response){
+      renderToppings(response.data.toppings)
+    })
   })
 
   // update data
@@ -57,11 +69,16 @@ const renderToppings = (toppings) => {
     const deliciousness = parseInt(event.target.deliciousness.value)
         
     updateTopping(id, name, deliciousness)
-    
-    resetEditing()
-
-    const toppings = getToppings()
-    renderToppings(toppings)
+    .then(function(response){
+      resetEditing()
+      return getToppings()
+    })
+    .then(function(response){
+      renderToppings(response.data.toppings)
+    })
+    .catch(function(error){
+      alert(error.response.statusText)
+    })
   })
 
 }

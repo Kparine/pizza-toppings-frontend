@@ -1,7 +1,7 @@
 const addEventListenerAll = (selector, type, fn) => {
   const targets = document.querySelectorAll(selector)
 
-  targets.forEach(t => t.addEventListener(type, fn))
+  targets.forEach(target => target.addEventListener(type, fn))
 }
 
 module.exports = {
