@@ -27,15 +27,16 @@ const renderToppings = (toppings) => {
     const id = event.target.parentElement.getAttribute('data-id')
     
     deleteTopping(id)
-    .then(function(response){
-      return getToppings()
-    })
-    .then(function(response){
-      renderToppings(response.data.toppings)
-    })
     .catch(function(error){
       alert(error.response.statusText)
     })
+    .finally(function(){
+      getToppings()
+      .then(function(response){
+        renderToppings(response.data.toppings)
+      })
+    })
+    
   })
 
   // show update form
